@@ -1,0 +1,19 @@
+/*login 登录页*/
+.login-page-content{
+  padding: 0 30px;
+}
+
+/*官方文档按钮*/
+#page5-button4{
+  font-size: 13px;
+  color:#374265;
+  border:1px solid #CCCCCC;
+  width: 6rem;
+}
+
+#page5-button1{
+  color:#ffffff;
+  background-color: #374265;
+  font-size: 18px;
+  font-weight: 300;
+}
