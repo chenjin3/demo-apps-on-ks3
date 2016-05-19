@@ -5,9 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
+var ks3app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, CONSTANT) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -20,4 +20,18 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
       StatusBar.styleDefault();
     }
   });
+
+    Ks3.config.AK = CONSTANT.AK;
+    Ks3.config.bucket = CONSTANT.bucket;
+    Ks3.config.region = CONSTANT.region;
 })
+
+var _Constant = {
+  bucket: 'gzz-beijing',
+  region: 'BEIJING',
+  AK: 'S1guCl0KF/qxO4CElPY/',
+  serverHost: 'http://127.0.0.1:3000/'
+};
+
+
+ks3app.constant('CONSTANT', _Constant);

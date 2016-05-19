@@ -14,7 +14,12 @@
     "gulp-util": "^2.2.14",
     "shelljs": "^0.3.0"
   },
-  "cordovaPlugins": [],
+  "cordovaPlugins": [
+    {
+      "locator": "https://github.com/wymsee/cordova-imagePicker.git",
+      "id": "cordova-plugin-image-picker"
+    }
+  ],
   "cordovaPlatforms": [
     "ios"
   ]
