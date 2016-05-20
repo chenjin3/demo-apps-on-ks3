@@ -16,7 +16,10 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('tabsCtrl', function($scope, $state, $ionicActionSheet,$cordovaImagePicker, Camera, Ks3Token, CONSTANT) {
+
+
+.controller('tabsCtrl',['$scope', '$state', '$ionicActionSheet', 'Camera', 'Ks3Token','CONSTANT','$cordovaImagePicker',
+    function($scope, $state, $ionicActionSheet, Camera, Ks3Token, CONSTANT,$cordovaImagePicker) {
     $scope.image = '';
 
 
@@ -188,6 +191,4 @@ angular.module('app.controllers', [])
       }, options);
     }
 
-
-
-  })
+  }])
