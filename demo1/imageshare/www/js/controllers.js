@@ -4,9 +4,17 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('meCtrl', function($scope) {
+.controller('meCtrl', ['$scope', '$q','Image',function($scope, $q, Image) {
+    var uid = JSON.parse(sessionStorage.getItem('user')).uid;
+    $q.when(Image.getOwnImages(uid)).then(function(res) {
+      if(res && res.status == 200) {
+        $scope.images = res.data.rows;
+      }
+    }, function(err) {
+      alert(err);
+    })
 
-})
+}])
 
 .controller('showCtrl', ['$scope','Image','$q', function($scope, Image, $q) {
     $q.when(Image.getAllImages()).then(function(res) {
