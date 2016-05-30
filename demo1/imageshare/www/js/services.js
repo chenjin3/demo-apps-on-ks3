@@ -1,7 +1,32 @@
 angular.module('app.services', [])
 
-.factory('BlankFactory', [function(){
-
+.factory('Image', ['$http','$q','CONSTANT',function($http, $q, CONSTANT){
+    var service = {
+      getAllImages: function() {
+        var deferral = $q.defer();
+        return $http({
+          method: 'get',
+          url: CONSTANT.dbHost
+        }).then(function(res) {
+          deferral.resolve(res);
+          return deferral.promise;
+        })
+      },
+      getOwnImages: function(uid) {
+        var deferral = $q.defer();
+        return $http({
+          method: 'get',
+          url: CONSTANT.dbHost,
+          params: {
+            'filter_owner.uid': uid
+          }
+        }).then(function(res) {
+          deferral.resolve(res);
+          return deferral.promise;
+        })
+      }
+    };
+    return service;
 }])
 
 /**
@@ -33,7 +58,7 @@ angular.module('app.services', [])
       signature: function(stringToSign) {
         return $http ({
             method: "POST",
-            url: CONSTANT + "token",
+            url: CONSTANT.serverHost + "token",
             data: stringToSign,
             cache: true
           });

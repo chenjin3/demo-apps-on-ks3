@@ -8,13 +8,61 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('showCtrl', function($scope) {
+.controller('showCtrl', ['$scope','Image','$q', function($scope, Image, $q) {
+    $q.when(Image.getAllImages()).then(function(res) {
+      if(res && res.status == 200) {
+        $scope.images = res.data.rows;
+      }
 
-})
+    }, function(err) {
+      alert(err);
+    })
 
-.controller('loginCtrl', function($scope) {
+}])
 
-})
+.controller('loginCtrl', ['$rootScope','$scope','$state',function($rootScope, $scope, $state) {
+    $scope.sinaAuthBtnClickHandler = function () {
+      $sharesdk.authorize($sharesdk.PlatformID.SinaWeibo, function (response) {
+        alert("state = " + response.state + "\n user = " + JSON.stringify(response.data));
+        if(response.state == $sharesdk.ResponseState.Success) {
+          sessionStorage.setItem('user',JSON.stringify(response.data));
+          $state.go("tabsController.page4");
+        }else if(response.state == $sharesdk.ResponseState.Cancel){
+          alert('取消登录');
+        }else if(response.state == $sharesdk.ResponseState.Fail) {
+          alert('登录失败，请使用社交账号登录');
+        }
+      });
+    }
+    $scope.wxAuthBtnClickHandler = function () {
+      $sharesdk.authorize($sharesdk.PlatformID.WechatPlatform, function (reqID, platform, state, error) {
+        alert("state = " + state + "\n error = " + error);
+      });
+    }
+    $scope.qqAuthBtnClickHandler = function () {
+      $sharesdk.authorize($sharesdk.PlatformID.QQPlatform, function (reqID, platform, state, error) {
+        alert("state = " + state + "\n error = " + error);
+      });
+    }
+
+
+    $scope.login = function() {
+        //$sharesdk.cancelAuthorize($sharesdk.PlatformID.SinaWeibo, function(reqID, platform, state, error) {
+        //  alert("cancel Weibo login : state = " + state + "\n error = " + error);
+        //});
+        cordova.exec(function(data){
+          alert(JSON.stringify(data));
+          sessionStorage.setItem('user',JSON.stringify(data));
+          $state.go("tabsController.page4");
+
+        },function(err){
+          alert('您尚未登录，请使用社交账号登录');
+        } ,"ShareSDK","getLocalUserInfo",[]);
+
+    };
+
+
+}])
 
 
 
@@ -167,28 +215,28 @@ angular.module('app.controllers', [])
 
       options.params = ks3Options;
 
-      var ft = new FileTransfer();
+      //var ft = new FileTransfer();
       $ionicLoading.show({
         template: '上传中...'
       });
-      ft.upload(fileURL, ks3UploadUrl  + CONSTANT.bucket, function(data) {
-        // 设置图片新地址
-        var resp = JSON.parse(data.response);
-        var link = resp.url;
-        console.log(link)
-        $scope.image = link;
-        var element = document.getElementsByName("AssistImageName");
-        element[0].src = link;
-        element[1].src = link;
-
-        //TODO: 跳转个人中心页面展示上传的图片
-        $state.go('tabsController.page3', {'url': link});
-
-        $ionicLoading.hide();
-      }, function(error) {
-        alert(JSON.stringify(error));
-        $ionicLoading.hide();
-      }, options);
+      //ft.upload(fileURL, ks3UploadUrl  + CONSTANT.bucket, function(data) {
+      //  // 设置图片新地址
+      //  var resp = JSON.parse(data.response);
+      //  var link = resp.url;
+      //  console.log(link)
+      //  $scope.image = link;
+      //  var element = document.getElementsByName("AssistImageName");
+      //  element[0].src = link;
+      //  element[1].src = link;
+      //
+      //  //TODO: 跳转个人中心页面展示上传的图片
+      //  $state.go('tabsController.page3', {'url': link});
+      //
+      //  $ionicLoading.hide();
+      //}, function(error) {
+      //  alert(JSON.stringify(error));
+      //  $ionicLoading.hide();
+      //}, options);
     }
 
   }])

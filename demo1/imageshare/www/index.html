@@ -40,13 +40,14 @@
     <script src="js/routes.js"></script>
     <script src="js/services.js"></script>
     <script src="js/directives.js"></script>
+    <script src="js/filters.js"></script>
 
     <!-- Only required for Tab projects w/ pages in multiple tabs
     <script src="lib/ionicuirouter/ionicUIRouter.js"></script>
     -->
 
   </head>
-  <body ng-app="app" animation="slide-left-right-ios7">
+  <body ng-app="app" animation="slide-left-right-ios7" class="platform-ios">
   <div>
     <ion-side-menus enable-menu-with-back-views="false" data-componentid="side-menu21">
         <ion-side-menu-content>
@@ -71,7 +72,7 @@
                     <ion-item id="side-menu21-list-item14" href="#" onclick="window.open('http://ks3.ksyun.com/doc/video/index.html', '_system', 'location=yes'); return false;" class="  " data-componentid="list-item14">音视频处理</ion-item>
                     <ion-item id="side-menu21-list-item15" href="#" onclick="window.open('http://ks3.ksyun.com/doc/testtool/ready.html', '_system', 'location=yes'); return false;" class="  " data-componentid="list-item15">测试和工具</ion-item>
                     <ion-item id="side-menu21-list-item16" href="#" onclick="window.open('http://ks3.ksyun.com/doc/faq/index.html', '_system', 'location=yes'); return false;" class="  " data-componentid="list-item16">FAQ</ion-item>
-                    <ion-item id="side-menu21-list-item17" ui-sref="page5" menu-close="" class="  " data-componentid="list-item17">退出</ion-item>
+                    <ion-item id="side-menu21-list-item17" ui-sref="login" menu-close="" class="  " data-componentid="list-item17">退出</ion-item>
                 </ion-list>
             </ion-content>
         </ion-side-menu>

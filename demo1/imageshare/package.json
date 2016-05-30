@@ -14,7 +14,12 @@
     "gulp-util": "^2.2.14",
     "shelljs": "^0.3.0"
   },
-  "cordovaPlugins": [],
+  "cordovaPlugins": [
+    {
+      "locator": "https://github.com/chenjin3/cordova-plugin-x-sharesdk.git",
+      "id": "cordova-plugin-x-sharesdk"
+    }
+  ],
   "cordovaPlatforms": [
     "ios"
   ]

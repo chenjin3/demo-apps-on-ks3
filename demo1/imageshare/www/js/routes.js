@@ -43,9 +43,9 @@ angular.module('app.routes', [])
     controller: 'tabsCtrl'
   })
 
-  .state('page5', {
+  .state('login', {
     url: '/login',
-    templateUrl: 'templates/page5.html',
+    templateUrl: 'templates/login.html',
     controller: 'loginCtrl'
   })
 
