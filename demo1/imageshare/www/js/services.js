@@ -6,7 +6,8 @@ angular.module('app.services', [])
         var deferral = $q.defer();
         return $http({
           method: 'get',
-          url: CONSTANT.dbHost
+          url: CONSTANT.dbHost,
+          cache: false
         }).then(function(res) {
           deferral.resolve(res);
           return deferral.promise;
@@ -19,7 +20,8 @@ angular.module('app.services', [])
           url: CONSTANT.dbHost,
           params: {
             'filter_owner.uid': uid
-          }
+          },
+          cache: false
         }).then(function(res) {
           deferral.resolve(res);
           return deferral.promise;
@@ -55,11 +57,16 @@ angular.module('app.services', [])
  */
   .factory('Ks3Token', function($http , CONSTANT) {
     return {
-      signature: function(stringToSign) {
+      signature: function(objKey,httpMethod,contentType, headers) {
         return $http ({
             method: "POST",
-            url: CONSTANT.serverHost + "token",
-            data: stringToSign,
+            url: CONSTANT.serverHost + "index/token",
+            data: {
+              key: objKey,
+              method: httpMethod,
+              contentType: contentType,
+              headers: headers
+            },
             cache: true
           });
       }

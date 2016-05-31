@@ -15,4 +15,4 @@ hs_err_pid*
 .idea/*
 *.iml
 bower_components/
-
+node_modules/

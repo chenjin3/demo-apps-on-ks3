@@ -49,4 +49,6 @@
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
     </platform>
     <plugin name="cordova-plugin-x-sharesdk" spec="/Users/Marlon/Documents/projects/iOSframework/cordova-plugin-x-sharesdk" />
+    <plugin name="cordova-plugin-file" spec="~4.2.0" />
+    <plugin name="cordova-plugin-file-transfer" spec="~1.5.1" />
 </widget>

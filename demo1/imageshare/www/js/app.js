@@ -28,12 +28,15 @@ var ks3app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'a
         window.cordova.InAppBrowser.open(url, "_blank", 'location=no');
       } else {
         window.open(url, '_blank');
-      }
+      }region
     };
 
-    Ks3.config.AK = CONSTANT.AK;
     Ks3.config.bucket = CONSTANT.bucket;
     Ks3.config.region = CONSTANT.region;
+    Ks3.config.baseUrl = Ks3.ENDPOINT[Ks3.config.region];
+
+    Ks3.config.AK = 'S1guCl0KF/r3cvqa5YHG';
+    Ks3.config.SK = 'CVpFTtt+tMlxwkg1PtzmD9p1rxHxAu0enzNBbk3F';
 
 
     //sharesdk初始化
@@ -81,9 +84,9 @@ var ks3app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'a
   })
 
 var _Constant = {
-  bucket: 'gzz-beijing',
+  dir: 'demoapp/',
+  bucket: 'chenjin520',
   region: 'BEIJING',
-  AK: 'S1guCl0KF/qxO4CElPY/',
   serverHost: 'http://127.0.0.1:3000/',
   dbHost: 'http://127.0.0.1:28017/demoapp/image/'
 };

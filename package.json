@@ -1,0 +1,31 @@
+{
+  "name": "demo-apps-on-ks3",
+  "version": "0.1.0",
+  "description": "ks3 demo apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chenjin3/demo-apps-on-ks3.git"
+  },
+  "keywords": [
+    "ks3",
+    "demo",
+    "cordova",
+    "ios"
+  ],
+  "author": "chenjin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chenjin3/demo-apps-on-ks3/issues"
+  },
+  "homepage": "https://github.com/chenjin3/demo-apps-on-ks3#readme",
+  "dependencies": {
+    "assert": "^1.4.0",
+    "formidable": "^1.0.17",
+    "ks3": "^0.3.2",
+    "mongodb": "^2.1.21"
+  }
+}
