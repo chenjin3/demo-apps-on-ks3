@@ -26,30 +26,52 @@ angular.module('app.controllers', [])
       alert(err);
     })
 
+    $scope.share = function(url) {
+      //alert(url);
+      var params = {
+        "text" : "",
+        "imageUrl" : url,
+        "title" : "分享标题",
+        "titleUrl" : "http://www.mob.com",
+        "description" : "测试的描述",
+        "site" : "ShareSDK",
+        "siteUrl" : "http://ks3.ksyun.com",
+        "type" : $sharesdk.ContentType.Auto
+      };
+
+      $sharesdk.showShareMenu(null, params, 100, 100, function (res) {
+        alert("platform = " + re.platform +"state = " + res.state + "\n shareInfo = " + res.shareInfo + "\n error = " + res.error);
+      });
+
+    }
   }])
 
   .controller('loginCtrl', ['$rootScope', '$scope', '$state', function ($rootScope, $scope, $state) {
+    $scope.shareSDKLoginCallback = function(response) {
+      alert("state = " + response.state + "\n user = " + JSON.stringify(response.data));
+      if (response.state == $sharesdk.ResponseState.Success) {
+        sessionStorage.setItem('user', JSON.stringify(response.data));
+        $state.go("tabsController.page4");
+      } else if (response.state == $sharesdk.ResponseState.Cancel) {
+        alert('取消登录');
+      } else if (response.state == $sharesdk.ResponseState.Fail) {
+        alert('登录失败，请使用社交账号登录');
+      }
+    }
+
     $scope.sinaAuthBtnClickHandler = function () {
       $sharesdk.authorize($sharesdk.PlatformID.SinaWeibo, function (response) {
-        alert("state = " + response.state + "\n user = " + JSON.stringify(response.data));
-        if (response.state == $sharesdk.ResponseState.Success) {
-          sessionStorage.setItem('user', JSON.stringify(response.data));
-          $state.go("tabsController.page4");
-        } else if (response.state == $sharesdk.ResponseState.Cancel) {
-          alert('取消登录');
-        } else if (response.state == $sharesdk.ResponseState.Fail) {
-          alert('登录失败，请使用社交账号登录');
-        }
+        $scope.shareSDKLoginCallback(response);
       });
     }
     $scope.wxAuthBtnClickHandler = function () {
-      $sharesdk.authorize($sharesdk.PlatformID.WechatPlatform, function (reqID, platform, state, error) {
-        alert("state = " + state + "\n error = " + error);
+      $sharesdk.authorize($sharesdk.PlatformID.WechatPlatform, function (response) {
+        $scope.shareSDKLoginCallback(response);
       });
     }
     $scope.qqAuthBtnClickHandler = function () {
-      $sharesdk.authorize($sharesdk.PlatformID.QQPlatform, function (reqID, platform, state, error) {
-        alert("state = " + state + "\n error = " + error);
+      $sharesdk.authorize($sharesdk.PlatformID.QQPlatform, function (response) {
+        $scope.shareSDKLoginCallback(response);
       });
     }
 
@@ -106,6 +128,36 @@ angular.module('app.controllers', [])
       };
 
 
+
+      $scope.putImageToKs3 = function(imageURI, prop) {
+        var fileName = imageURI.substr(imageURI.lastIndexOf('/') + 1);
+        if (fileName.endWith('jpg') || fileName.endWith('png') || fileName.endWith('gif') || fileName.endWith('jpeg') || fileName.endWith('bmp')) {
+          var user = JSON.parse(sessionStorage.getItem('user'));
+          if (user.uid) {
+            var objKey = Ks3.encodeKey(CONSTANT.dir + user.uid + '/' + fileName);
+            var contentType = 'image/jpg';
+            var headers = {
+              'x-kss-acl': 'public-read',
+              'x-kss-callbackurl': 'http://vaba2aiii6.proxy.qqbrowser.cc',
+              'x-kss-callbackbody': 'objectKey=${key}&createTime=${createTime}&uid=' + user.uid + '&nickname=' + encodeURIComponent(user.nickname) + '&icon=' + user.icon
+            };
+
+            Ks3Token.signature(objKey, 'PUT', contentType, headers).then(function (resp) {
+              $scope.authorization = resp.data;
+              $scope.uploadimage(imageURI, objKey, contentType, headers, $scope.authorization, prop);
+            }).finally(function () {
+
+            });
+
+          } else {
+            alert('您还没有登录');
+            $state.go('login');
+          }
+        } else {
+          alert("请选择图片文件");
+        }
+      }
+
       // 读用户相册
       $scope.readalbum = function (prop) {
         if (!window.imagePicker) {
@@ -121,35 +173,8 @@ angular.module('app.controllers', [])
         };
 
         $cordovaImagePicker.getPictures(options).then(function (results) {
-          var fileURL = results[0];
-          var fileName = fileURL.substr(fileURL.lastIndexOf('/') + 1);
-          if (fileName.endWith('jpg') || fileName.endWith('png') || fileName.endWith('gif') || fileName.endWith('jpeg') || fileName.endWith('bmp')) {
-            var user = JSON.parse(sessionStorage.getItem('user'));
-            //var objKey = Ks3.encodeKey(CONSTANT.dir + uid + '/' + fileName + '_' + ( + new Date())); // key:  demoapp/uid/filename_timestamp
-            if (user.uid) {
-              var objKey = Ks3.encodeKey(CONSTANT.dir + user.uid + '/' + fileName);
-              var contentType = 'image/jpg';
-              var headers = {
-                'x-kss-acl':'public-read',
-                'x-kss-callbackurl': 'http://vaba2aiii6.proxy.qqbrowser.cc',
-                'x-kss-callbackbody': 'objectKey=${key}&createTime=${createTime}&uid='+ user.uid + '&nickname=' + encodeURIComponent(user.nickname) + '&icon='+ user.icon
-              };
-
-              Ks3Token.signature(objKey, 'PUT', contentType, headers).then(function (resp) {
-                $scope.authorization = resp.data;
-                $scope.uploadimage(fileURL, objKey, contentType, headers, $scope.authorization, prop);
-              }).finally(function () {
-
-              });
-
-            } else {
-              alert('您还没有登录');
-              $state.go('login');
-            }
-          } else {
-            alert("请选择图片文件");
-          }
-
+          var imageURI = results[0];
+          $scope.putImageToKs3(imageURI, prop);
         }, function (error) {
           alert(error);
         });
@@ -169,20 +194,7 @@ angular.module('app.controllers', [])
           saveToPhotoAlbum: false
         };
         Camera.getPicture(options).then(function (imageURI) {
-          $scope.uploadimage(imageURI);
-          var name = imageURI;
-          if (name.indexOf('/')) {
-            var i = name.lastIndexOf('/');
-            name = name.substring(i + 1);
-          }
-
-          // 获取UPYUN的token数据
-          Upyun.token(name, 1000).then(function (resp) {
-            $scope.signatureFromPolicy = resp.data;
-            $scope.uploadimage(imageURI, prop);
-          }).finally(function () {
-          });
-
+          $scope.putImageToKs3(imageURI, prop);
         }, function (err) {
           alert("照相机：" + err);
         });
