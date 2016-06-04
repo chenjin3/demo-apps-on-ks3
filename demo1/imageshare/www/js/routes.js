@@ -49,6 +49,11 @@ angular.module('app.routes', [])
     controller: 'loginCtrl'
   })
 
+    .state('pay', {
+      url: '/pay',
+      templateUrl: 'templates/onepay.html',
+      controller: 'payCtrl'
+    })
 $urlRouterProvider.otherwise('/login')
 
 

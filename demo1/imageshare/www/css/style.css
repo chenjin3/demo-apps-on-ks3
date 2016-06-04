@@ -25,7 +25,7 @@
 
 /*秀场*/
 .image-card {
-  margin-bottom: 40px;
+  margin:0 0 40px 0;
 }
 
 /*.publish-date {*/
@@ -33,3 +33,80 @@
   /*text-decoration: none;*/
   /*color: #374265;*/
 /*}*/
+
+#page3-list-item-container4, #page4-list-item-container1 {
+  padding: 0;
+}
+
+/* donate */
+.pay-content {
+  width: 100%;
+  margin: auto;
+  padding: 14px;
+  height: auto;
+  overflow: hidden;
+}
+.text_amount {
+  display: block;
+  margin: 56px auto;
+  width: 300px;
+}
+.text_amount input[type="text"] {
+  width: 100%;
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -ms-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  border-bottom: 1px solid #999999;
+}
+.text_amount input[type="text"]:focus {
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -ms-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  border-bottom: 1px solid #000000;
+}
+
+
+
+.ch .up {
+  width: 20%;
+  min-width: 91px;
+  padding: 14px;
+  cursor: pointer;
+  margin-right: 20%;
+  display: block;
+  float: left;
+  text-align: center;
+  font-size: 16px;
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -ms-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+}
+
+.ch .up:hover {
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -ms-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  color: #000000;
+}
+
+
+@media (max-width: 640px) {
+  .ch .up {
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -ms-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    float: none;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 28px;
+    border: 1px solid #374265;
+    padding: 14px;
+    margin-right: 10%;
+  }
+
+}

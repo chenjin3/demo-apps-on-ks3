@@ -7,6 +7,9 @@ angular.module('app.services', [])
         return $http({
           method: 'get',
           url: CONSTANT.dbHost,
+          params:{
+            'limit': 5
+          },
           cache: false
         }).then(function(res) {
           deferral.resolve(res);

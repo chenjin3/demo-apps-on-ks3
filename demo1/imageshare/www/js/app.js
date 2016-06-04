@@ -25,9 +25,9 @@ var ks3app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'a
     //打开文档链接
     $rootScope.open_outer_url = function (url) {
       if (window.cordova && window.cordova.InAppBrowser) {
-        window.cordova.InAppBrowser.open(url, "_blank", 'location=no');
+        window.cordova.InAppBrowser.open(url, "_self", 'location=yes');
       } else {
-        window.open(url, '_blank');
+        window.open(url, '_system');
       }region
     };
 
@@ -66,8 +66,19 @@ var ks3app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'a
       platformConfig[window.$sharesdk.PlatformID.QQPlatform] = qqConf;
 
 
+      //腾讯微博
+      var tencentWeiboConf = {};
+      tencentWeiboConf["app_key"] = "801307650";
+      tencentWeiboConf["app_secret"] = "ae36f4ee3946e1cbb98d6965b0b2ff5c";
+      tencentWeiboConf["redirect_uri"] = "http://www.sharesdk.cn";
+      platformConfig[$sharesdk.PlatformID.TencentWeibo] = tencentWeiboConf;
+
+      //Mail
+      var mailConf = {};
+      platformConfig[$sharesdk.PlatformID.Mail] = mailConf;
+
       //2、初始化ShareSDK
-      window.$sharesdk.initSDKAndSetPlatfromConfig("1301300a2e8a8", platformConfig); //first param is appKey
+      window.$sharesdk.initSDKAndSetPlatfromConfig("iosv1101", platformConfig); //first param is appKey   1301300a2e8a8
     }
 
     ionic.Platform.ready(function(){
