@@ -16,7 +16,7 @@ const port = 3000;
 var responseHeader = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "PUT,POST,GET,DELETE,OPTIONS",
-    "Access-Control-Allow-Headers": "Authorization,kss-async-process,kss-notifyurl,x-kss-storage-class"
+    "Access-Control-Allow-Headers": "Authorization,kss-async-process,kss-notifyurl,x-kss-storage-class,Content-Type"
 };
 
 var ak = process.env.AK || 'S1guCl0KF/r3cvqa5YHG';
@@ -151,6 +151,48 @@ handles.index.token = function calcToken(req, res) {
 
 }
 
+handles.pay = {};
+
+handles.pay.createCharge = function createCharge(req,res){
+    var pingpp = require('pingpp')('sk_test_4m1C8OfbfLqLS4qvX9zbHC4S');
+    var extra = null;
+    switch (req.body.channel){
+        case 'alipay_wap':
+            extra = {success_url:'http://ks3.ksyun.com/', cancel_url:'http://ks3.ksyun.com/'};
+            break;
+        case 'upacp_wap':  //新银联
+            extra = {result_url:'http://ks3.ksyun.com/'};
+            break;
+        case 'upmp_wap':  //老银联
+            extra = {result_url:'http://ks3.ksyun.com/'};
+            break;
+        case 'wx_pub':
+            break;
+        default :
+    }
+
+    pingpp.charges.create({
+        subject: "测试H5支付",
+        body: "一只萌物",
+        amount: req.body.amount,
+        order_no: req.body.order_no,
+        channel: req.body.channel,
+        currency: "cny",
+        client_ip: "192.168.31.240",
+        app: {id: "app_iLWzr9iHybvTWjXL"},
+        extra: extra
+    }, function(err, charge) {
+        if(err){
+            console.log(err);
+            res.writeHead(500,responseHeader);
+            res.end('无法获得支付凭据Charge对象: ' + err.message);
+            return;
+        }
+        res.writeHead(200,responseHeader);
+        res.end(JSON.stringify(charge));
+
+    });
+};
 
 function post(req, res) {
     if (hasBody(req)) {
