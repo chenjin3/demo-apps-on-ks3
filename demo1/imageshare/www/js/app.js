@@ -25,10 +25,21 @@ var ks3app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'a
     //打开文档链接
     $rootScope.open_outer_url = function (url) {
       if (window.cordova && window.cordova.InAppBrowser) {
-        window.cordova.InAppBrowser.open(url, "_self", 'location=yes');
+        //var options = {
+        //  location: 'yes',
+        //  clearcache: 'yes',
+        //  toolbar: 'yes'
+        //};
+        var options = "location=yes,clearcache=yes,toolbar=yes";
+        window.cordova.InAppBrowser.open(url, "_self", options).then(function(event) {
+          // success
+
+        }).catch(function(event) {
+          // error
+        });
       } else {
         window.open(url, '_system');
-      }region
+      }
     };
 
     Ks3.config.bucket = CONSTANT.bucket;

@@ -49,7 +49,7 @@
 .text_amount {
   display: block;
   margin: 56px auto;
-  width: 300px;
+  border-bottom: 1px solid #999999;
 }
 .text_amount input[type="text"] {
   width: 100%;
@@ -57,7 +57,7 @@
   -moz-transition: all 0.2s ease-out;
   -ms-transition: all 0.2s ease-out;
   -o-transition: all 0.2s ease-out;
-  border-bottom: 1px solid #999999;
+
 }
 .text_amount input[type="text"]:focus {
   -webkit-transition: all 0.2s ease-out;

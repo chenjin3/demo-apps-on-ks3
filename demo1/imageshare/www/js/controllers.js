@@ -4,6 +4,10 @@ angular.module('app.controllers', [])
 
   })
 
+  .controller('callbackCtrl', function ($scope) {
+
+  })
+
   .controller('meCtrl', ['$scope', '$q', 'Image', function ($scope, $q, Image) {
     var uid = JSON.parse(sessionStorage.getItem('user')).uid;
     $q.when(Image.getOwnImages(uid)).then(function (res) {
@@ -267,7 +271,7 @@ angular.module('app.controllers', [])
     }])
 
 
-  .controller('payCtrl', function ($rootScope,$scope, CONSTANT) {
+  .controller('payCtrl', function ($rootScope,$scope,$state, CONSTANT) {
     //初始化ping++
     (function(){
       var one_url='./lib/index.js';
@@ -314,6 +318,12 @@ angular.module('app.controllers', [])
     })();
 
     $scope.charge = {};
+    var user = JSON.parse(sessionStorage.getItem('user'));
+    if(user.platform == 997) { //wechat
+        $scope.charge.wxOpenId = user.rawData.openid;
+    }else{
+      $scope.charge.wxOpenId = "";
+    }
       $scope.pay = function() {
         //var amount = document.getElementById('amount').value;
         pingpp_one.init({
@@ -325,7 +335,7 @@ angular.module('app.controllers', [])
           channel: ['alipay_wap', 'wx_pub', 'upacp_wap', 'yeepay_wap', 'jdpay_wap', 'bfb_wap'],
           charge_url: CONSTANT.serverHost + 'pay/createCharge',  //商户服务端创建订单的 url
           charge_param: {a: 1, b: 2},                      //(可选，用户自定义参数，若存在自定义参数则壹收款会通过 POST 方法透传给 charge_url)
-          open_id: 'wx1234567895',                      //(可选，使用微信公众号支付时必须传入)
+          open_id: $scope.charge.wxOpenId,                      //(可选，使用微信公众号支付时必须传入)
           debug: true                                   //(可选，debug 模式下会将 charge_url 的返回结果透传回来)
         }, function (res) {
           //debug 模式下获取 charge_url 的返回结果
@@ -354,8 +364,10 @@ angular.module('app.controllers', [])
               //这里处理支付成功页面点击“继续购物”按钮触发的方法，
               //例如：若你需要点击“继续购物”按钮跳转到你的购买页，
               //则在该方法内写入 window.location.href = "你的购买页面 url"
+              alert("callback");
               $rootScope.open_outer_url('http://ks3.ksyun.com/');
-              //window.location.href = 'http://ks3.ksyun.com/';//示例
+              //window.location.href = 'http://ks3.ksyun.com/';
+              //$state.go('pay.callback');
             });
           }
         });

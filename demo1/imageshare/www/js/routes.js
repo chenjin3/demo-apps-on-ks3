@@ -8,8 +8,6 @@ angular.module('app.routes', [])
   // Each state's controller can be found in controllers.js
   $stateProvider
 
-
-
       .state('camera', {
     url: '/camera',
     templateUrl: 'templates/camera.html',
@@ -18,6 +16,7 @@ angular.module('app.routes', [])
 
   .state('tabsController.page3', {
     url: '/me',
+      cache: false,
     views: {
       'tab3': {
         templateUrl: 'templates/page3.html',
@@ -28,6 +27,7 @@ angular.module('app.routes', [])
 
   .state('tabsController.page4', {
     url: '/show',
+      cache: false,
     views: {
       'tab1': {
         templateUrl: 'templates/page4.html',
@@ -51,10 +51,17 @@ angular.module('app.routes', [])
 
     .state('pay', {
       url: '/pay',
+      cache: false,
       templateUrl: 'templates/onepay.html',
       controller: 'payCtrl'
     })
-$urlRouterProvider.otherwise('/login')
+    .state('pay.callback', {
+      url: '/callback',
+      templateUrl: 'templates/callback.html',
+      controller: 'callbackCtrl'
+    })
+
+    $urlRouterProvider.otherwise('/login');
 
 
 
