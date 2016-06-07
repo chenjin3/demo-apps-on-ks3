@@ -30,12 +30,14 @@ var ks3app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'a
         //  clearcache: 'yes',
         //  toolbar: 'yes'
         //};
-        var options = "location=yes,clearcache=yes,toolbar=yes";
-        window.cordova.InAppBrowser.open(url, "_self", options).then(function(event) {
+        var options = "location=yes,clearcache=no,toolbar=yes";
+        var ref = window.cordova.InAppBrowser.open(url, "_self", options).then(function(event) {
           // success
 
         }).catch(function(event) {
           // error
+          ref.close();
+          ref = undefined;
         });
       } else {
         window.open(url, '_system');
@@ -110,7 +112,8 @@ var _Constant = {
   bucket: 'chenjin520',
   region: 'BEIJING',
   serverHost: 'http://local.ks3.ksyun.com:3000/',
-  dbHost: 'http://local.ks3.ksyun.com:28017/demoapp/image/'
+  dbPath: 'demoapp/image/',
+  //dbHost: 'http://local.ks3.ksyun.com:28017/demoapp/image/'
 };
 
 

@@ -10,9 +10,10 @@ angular.module('app.controllers', [])
 
   .controller('meCtrl', ['$scope', '$q', 'Image', function ($scope, $q, Image) {
     var uid = JSON.parse(sessionStorage.getItem('user')).uid;
+    $scope.start = 0;
     $q.when(Image.getOwnImages(uid)).then(function (res) {
       if (res && res.status == 200) {
-        $scope.images = res.data.rows;
+        $scope.images = res.data;
       }
     }, function (err) {
       alert(err);
@@ -21,14 +22,30 @@ angular.module('app.controllers', [])
   }])
 
   .controller('showCtrl', ['$scope', 'Image', '$q', function ($scope, Image, $q) {
-    $q.when(Image.getAllImages()).then(function (res) {
-      if (res && res.status == 200) {
-        $scope.images = res.data.rows;
-      }
+    $scope.start = 0;
+    $scope.moreDataCanBeLoaded = true;
+    $scope.images = [];
 
-    }, function (err) {
-      alert(err);
-    })
+    $scope.loadMore = function() {
+      $q.when(Image.getAllImages($scope.start)).then(function (res) {
+        if (res && res.status == 200) {
+          $scope.images = $scope.images.concat(res.data);
+          var count = res.data.length
+          $scope.start += count;
+          if(count == 0) {
+            $scope.moreDataCanBeLoaded = false;
+          }
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+        }
+      }, function (err) {
+        alert(err);
+      });
+    };
+
+    $scope.$on('$stateChangeSuccess', function() {
+      $scope.loadMore();
+    });
+    //$scope.loadMore();
 
     $scope.share = function(url) {
       //alert(url);
@@ -365,7 +382,7 @@ angular.module('app.controllers', [])
               //例如：若你需要点击“继续购物”按钮跳转到你的购买页，
               //则在该方法内写入 window.location.href = "你的购买页面 url"
               alert("callback");
-              $rootScope.open_outer_url('http://ks3.ksyun.com/');
+              $rootScope.open_outer_url(encodeURI('http://ks3.ksyun.com/'));
               //window.location.href = 'http://ks3.ksyun.com/';
               //$state.go('pay.callback');
             });

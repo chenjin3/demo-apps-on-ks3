@@ -2,13 +2,17 @@ angular.module('app.services', [])
 
 .factory('Image', ['$http','$q','CONSTANT',function($http, $q, CONSTANT){
     var service = {
-      getAllImages: function() {
+      getAllImages: function(start) {
         var deferral = $q.defer();
         return $http({
           method: 'get',
-          url: CONSTANT.dbHost,
+          url: CONSTANT.serverHost + CONSTANT.dbPath,
           params:{
-            'limit': 5
+            start: start,
+            limit: 5,
+            sort:{
+              "createTime": -1
+            }
           },
           cache: false
         }).then(function(res) {
@@ -20,9 +24,12 @@ angular.module('app.services', [])
         var deferral = $q.defer();
         return $http({
           method: 'get',
-          url: CONSTANT.dbHost,
+          url: CONSTANT.serverHost + CONSTANT.dbPath + uid,
           params: {
-            'filter_owner.uid': uid
+            start: 0,
+            sort:{
+              "createTime": -1
+            }
           },
           cache: false
         }).then(function(res) {

@@ -3,7 +3,7 @@
 
 #### feature如下：
 
-1. 用户登录（用户名密码登录，社交账号登录）
+1. 用户登录（社交账号登录）
 2. 上传照片（拍照上传，本地图片上传）
 3. 首页按时间顺序展示所有用户上传的图片
 4. 个人页面展示本人上传的图片
@@ -14,10 +14,9 @@
 
 #### 本应用将演示如下Ks3接口的使用：
 
-1. 通过账号下的AK, SK计算请求签名  [接口文档](http://ks3.ksyun.com/doc/api/index.html#请求签名)
-2. POST表单上传文件  [接口文档](http://ks3.ksyun.com/doc/api/object/post.html)
-3. 私密文件的外链生成
-4. 上传回调处理      [接口文档](http://ks3.ksyun.com/doc/api/async/callback.html)
+1. 通过账号下的AK, SK计算请求签名（后端签名）  [接口文档](http://ks3.ksyun.com/doc/api/index.html#请求签名)
+2. PUT上传文件  [接口文档](http://ks3.ksyun.com/doc/api/object/put.html)
+3. 上传回调处理      [接口文档](http://ks3.ksyun.com/doc/api/async/callback.html)
 
 
 #### 架构说明

@@ -26,16 +26,82 @@ var bucketName = process.env.BUCKET || 'chenjin520';
 
 function get(req, res) {
     var pathname = url.parse(req.url).pathname;
-    fs.readFile(path.join(ROOT, pathname), function (err, file) {
-        if (err) {
-            res.writeHead(404);
-            res.end('找不到相关文件。 - -');
-            return;
+    var query =  url.parse(req.url,true).query;
+    var paths = pathname.split('/');
+    var dbname = paths[1];
+    var collection = paths[2];
+    if(paths.length == 3 ) {
+        var uid = paths[3];
+    }
+    if(dbname == 'demoapp' && collection == 'image') { //处理数据库请求
+        var start = query.start || 0;
+        var limit = query.limit || 10;
+        var sort = query.sort;
+        try{
+            findDocumentsFromDB(uid, start, limit, sort, res);
+        }catch(e) {
+            console.log(e);
         }
-        res.writeHead(200);
-        res.end(file);
-    });
+    }else {
+        fs.readFile(path.join(ROOT, pathname), function (err, file) {
+            if (err) {
+                res.writeHead(404);
+                res.end('找不到相关文件。 - -');
+                return;
+            }
+            res.writeHead(200);
+            res.end(file);
+        });
+    }
 }
+/**
+ *
+ * @param uid
+ * @param start
+ * @param limit
+ * @param sort object  example: {createTime: -1}
+ */
+function findDocumentsFromDB(uid, start, limit,sort, res) {
+    start = Number.parseInt(start);
+    limit = Number.parseInt(limit);
+    sort = JSON.parse(sort);
+    var findDocuments = function(collection, callback) {
+        // Find some documents
+        if(uid) {
+            collection.find({"owner.uid": uid}).sort(sort).skip(start).limit(limit).toArray(function(err, docs) {
+                assert.equal(err, null);
+                //assert.equal(2, docs.length);
+                console.log("Found the following records");
+                console.dir(docs);
+                callback(docs);
+            });
+        }else {
+            collection.find({}).sort(sort).skip(start).limit(limit).toArray(function(err, docs) {
+                assert.equal(err, null);
+                //assert.equal(2, docs.length);
+                console.log("Found the following records");
+                console.dir(docs);
+                callback(docs);
+            });
+        }
+    }
+
+    // Use connect method to connect to the Server
+    MongoClient.connect(mongoDBUrl, function(err, db) {
+        assert.equal(null, err);
+        console.log("Connected correctly to server");
+        // Get the documents collection
+        var collection = db.collection('image');
+        findDocuments(collection, function(docs) {
+            db.close();
+
+            res.writeHead(200);
+            res.end(JSON.stringify(docs));
+            console.log("return docs");
+        });
+    });
+
+};
 
 function hasBody(req) {
     return 'transfer-encoding' in req.headers || ('content-length' in req.headers && req.headers['content-length'] !== '0');
@@ -71,6 +137,7 @@ var MongoClient = require('mongodb').MongoClient
 
 // Connection URL
 var mongoDBUrl = 'mongodb://localhost:27017/demoapp';
+
 
 function insertDocument2DB(document, res) {
     // Use connect method to connect to the Server
