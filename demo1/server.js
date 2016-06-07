@@ -30,7 +30,7 @@ function get(req, res) {
     var paths = pathname.split('/');
     var dbname = paths[1];
     var collection = paths[2];
-    if(paths.length == 3 ) {
+    if(paths.length == 4 ) {
         var uid = paths[3];
     }
     if(dbname == 'demoapp' && collection == 'image') { //处理数据库请求
@@ -80,7 +80,7 @@ function findDocumentsFromDB(uid, start, limit,sort, res) {
                 assert.equal(err, null);
                 //assert.equal(2, docs.length);
                 console.log("Found the following records");
-                console.dir(docs);
+                //console.dir(docs);
                 callback(docs);
             });
         }
