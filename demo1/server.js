@@ -215,7 +215,6 @@ handles.index.token = function calcToken(req, res) {
         res.writeHead(400);
         res.end('缺少参数');
     }
-
 }
 
 handles.pay = {};

@@ -62,8 +62,11 @@ angular.module('app.services', [])
 
 /**
  * 获取Ks3的签名信息
- * 前端传递描述post表单域的policy文档（经过base64编码）
- * 返回post表单上传签名
+ * @param objectKey
+ * @param httpMethod  请求方法，如PUT，GET
+ * @param contentType 实体mime类型，请求头不带Content-Type头时可以指定为""(空字符串)
+ * @param headers x-kss-开头的请求头信息
+ * 返回签名
  */
   .factory('Ks3Token', function($http , CONSTANT) {
     return {
