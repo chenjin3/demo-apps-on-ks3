@@ -1,4 +1,4 @@
-# imageshare是一个基于ks3的图片分享应用
+# ImageShare是一个基于ks3的图片分享应用
 
 
 #### feature如下：
@@ -20,6 +20,7 @@
 
 
 #### 架构说明
+##### 1、整体架构
 
 使用金山云存储服务时，很多人采用的做法是用户在浏览器/APP上传到应用服务器,然后应用服务器再把文件上传到KS3。
 这种方法有三个缺点:
@@ -38,3 +39,14 @@ Web端直传可以节省流量，但应用服务器无法知道用户上传的�
 
 ![应用架构图](./prototyping/framework_basedon_ks3.png)
 
+图中前端部分代码在工程中demo1/imageshare目录下，具体介绍参见[下一小节](#client)，应用服务器端采用node.js编写，代码在demo1/server.js中。
+
+
+##### 2、<a id="client"></a>前端架构
+本示例的前端采用流行的H5移动框架[Ionic](https://github.com/driftyco/ionic), 该框架允许基于开放的web技术构建跨平台的混合应用。Ionic框架是基于[Angular](https://github.com/angular/angular.js)和[Cordova](https://cordova.apache.org/)构建的，适合快速开发接近原生的混合应用。本教程的示例app ImageShare目前仅支持iOS系统，效果见如下app截图，您可以通过app store安装体验该app。
+
+
+imageshare工程下的www目录中包含所有界面和逻辑的代码，plugins是应用依赖的插件，包括几个Cordova核心插件(相机，设备，文件传输，图片选择器，内嵌浏览器)和一个自定义的[ShareSDK插件](https://github.com/chenjin3/cordova-plugin-x-sharesdk)。platforms目录下所支持的平台，目前只支持iOS平台，想运行于其他平台可以通过ionic或[cordova的命令行工具](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html)自行添加其他平台（如Android，windows）。而platforms/ios/imageshare.xcodeproj 文件为xcode工程文件，可以通过xcode打开该iOS应用。
+
+
+#### 应用核心代码说明
