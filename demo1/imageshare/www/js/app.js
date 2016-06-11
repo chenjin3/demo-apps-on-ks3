@@ -111,7 +111,8 @@ var _Constant = {
   dir: 'demoapp/',
   bucket: 'chenjin520',
   region: 'BEIJING',
-  serverHost: 'http://local.ks3.ksyun.com:3000/',
+  //serverHost: 'http://local.ks3.ksyun.com:3000/',
+  serverHost: 'http://52.193.207.108/',
   dbPath: 'demoapp/image/',
   //dbHost: 'http://local.ks3.ksyun.com:28017/demoapp/image/'
 };

@@ -159,7 +159,7 @@ angular.module('app.controllers', [])
             var contentType = 'image/jpg';
             var headers = {
               'x-kss-acl': 'public-read',
-              'x-kss-callbackurl': 'http://vaba2aiii6.proxy.qqbrowser.cc',
+              'x-kss-callbackurl': CONSTANT.serverHost,
               'x-kss-callbackbody': 'objectKey=${key}&createTime=${createTime}&uid=' + user.uid + '&nickname=' + encodeURIComponent(user.nickname) + '&icon=' + user.icon
             };
 
