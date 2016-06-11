@@ -27,19 +27,22 @@ angular.module('app.controllers', [])
     $scope.images = [];
 
     $scope.loadMore = function() {
-      $q.when(Image.getAllImages($scope.start)).then(function (res) {
-        if (res && res.status == 200) {
-          $scope.images = $scope.images.concat(res.data);
-          var count = res.data.length
-          $scope.start += count;
-          if(count == 0) {
-            $scope.moreDataCanBeLoaded = false;
+      //if($scope.moreDataCanBeLoaded) {
+
+        $q.when(Image.getAllImages($scope.start)).then(function (res) {
+          if (res && res.status == 200) {
+            $scope.images = $scope.images.concat(res.data);
+            var count = res.data.length;
+            $scope.start += count;
+            if(count == 0) {
+              $scope.moreDataCanBeLoaded = false;
+            }
+            $scope.$broadcast('scroll.infiniteScrollComplete');
           }
-          $scope.$broadcast('scroll.infiniteScrollComplete');
-        }
-      }, function (err) {
-        alert(err);
-      });
+        }, function (err) {
+          alert(err);
+        });
+      //}
     };
 
     $scope.$on('$stateChangeSuccess', function() {
