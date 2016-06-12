@@ -61,9 +61,9 @@ var ks3app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'a
       //以下是示例
       //新浪微博
       var sinaConf = {};
-      sinaConf["app_key"] = "568898243";
-      sinaConf["app_secret"] = "38a4f8204cc784f81f9f0daaf31e02e3";
-      sinaConf["redirect_uri"] = "http://www.sharesdk.cn";
+      sinaConf["app_key"] = "34122121";
+      sinaConf["app_secret"] = "1f2b3f17bdd1c3f0e9e7b3e96e559f94";
+      sinaConf["redirect_uri"] = "http://ks3.ksyun.com";
       platformConfig[window.$sharesdk.PlatformID.SinaWeibo] = sinaConf;
 
       //微信
@@ -74,24 +74,20 @@ var ks3app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'a
 
       //QQ
       var qqConf = {};
-      qqConf["app_id"] = "100371282";
-      qqConf["app_key"] = "aed9b0303e3ed1e27bae87c33761161d";
+      qqConf["app_id"] = "1105462710";
+      qqConf["app_key"] = "j9uOafVU7cWqbxuW";//"aed9b0303e3ed1e27bae87c33761161d";
       platformConfig[window.$sharesdk.PlatformID.QQPlatform] = qqConf;
 
+      //QQ空间
+      //platformConfig[window.$sharesdk.PlatformID.QZone] = qqConf;
 
-      //腾讯微博
-      var tencentWeiboConf = {};
-      tencentWeiboConf["app_key"] = "801307650";
-      tencentWeiboConf["app_secret"] = "ae36f4ee3946e1cbb98d6965b0b2ff5c";
-      tencentWeiboConf["redirect_uri"] = "http://www.sharesdk.cn";
-      platformConfig[$sharesdk.PlatformID.TencentWeibo] = tencentWeiboConf;
 
       //Mail
       var mailConf = {};
       platformConfig[$sharesdk.PlatformID.Mail] = mailConf;
 
       //2、初始化ShareSDK
-      window.$sharesdk.initSDKAndSetPlatfromConfig("iosv1101", platformConfig); //first param is appKey   1301300a2e8a8
+      window.$sharesdk.initSDKAndSetPlatfromConfig("1301300a2e8a8", platformConfig); //first param is appKey   iosv1101
     }
 
     ionic.Platform.ready(function(){

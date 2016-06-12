@@ -20,13 +20,14 @@ angular.module('app.services', [])
           return deferral.promise;
         })
       },
-      getOwnImages: function(uid) {
+      getOwnImages: function(uid, start) {
         var deferral = $q.defer();
         return $http({
           method: 'get',
           url: CONSTANT.serverHost + CONSTANT.dbPath + uid,
           params: {
-            start: 0,
+            start: start,
+            limit:5,
             sort:{
               "createTime": -1
             }

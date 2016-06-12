@@ -19,9 +19,9 @@ var responseHeader = {
     "Access-Control-Allow-Headers": "Authorization,kss-async-process,kss-notifyurl,x-kss-storage-class,Content-Type"
 };
 
-var ak = process.env.AK || 'S1guCl0KF/r3cvqa5YHG';
-var sk = process.env.SK || 'CVpFTtt+tMlxwkg1PtzmD9p1rxHxAu0enzNBbk3F';
-var bucketName = process.env.BUCKET || 'chenjin520';
+var ak = process.env.AK || 'your ks3 AK';
+var sk = process.env.SK || 'your ks3 SK';
+var bucketName = process.env.BUCKET || 'your bucket name';
 
 
 function get(req, res) {

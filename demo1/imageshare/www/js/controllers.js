@@ -10,21 +10,57 @@ angular.module('app.controllers', [])
 
   .controller('meCtrl', ['$scope', '$q', 'Image', function ($scope, $q, Image) {
     var uid = JSON.parse(sessionStorage.getItem('user')).uid;
-    $scope.start = 0;
-    $q.when(Image.getOwnImages(uid)).then(function (res) {
-      if (res && res.status == 200) {
-        $scope.images = res.data;
-      }
-    }, function (err) {
-      alert(err);
-    })
 
-  }])
-
-  .controller('showCtrl', ['$scope', 'Image', '$q', function ($scope, Image, $q) {
     $scope.start = 0;
     $scope.moreDataCanBeLoaded = true;
     $scope.images = [];
+
+    $scope.loadMore = function() {
+      $q.when(Image.getOwnImages(uid, $scope.start)).then(function (res) {
+        if (res && res.status == 200) {
+          $scope.images = $scope.images.concat(res.data);
+          var count = res.data.length;
+          $scope.start += count;
+          if(count == 0) {
+            $scope.moreDataCanBeLoaded = false;
+          }
+          $scope.$broadcast('scroll.infiniteScrollComplete');
+        }
+      }, function (err) {
+        alert(err);
+      });
+    };
+
+
+    $scope.$on('$stateChangeSuccess', function() {
+      $scope.loadMore();
+    });
+
+    $scope.share = function(url) {
+      //alert(url);
+      var params = {
+        "text" : "",
+        "imageUrl" : url,
+        "title" : "图片分享",
+        "titleUrl" : url,
+        "description" : "测试的描述",
+        "site" : "Ks3",
+        "siteUrl" : "http://ks3.ksyun.com",
+        "type" : $sharesdk.ContentType.Image
+      };
+
+      $sharesdk.showShareMenu(null, params, 100, 100, function (res) {
+        console.log(JSON.stringify(res));
+      });
+    };
+
+  }])
+
+  .controller('showCtrl', ['$scope', 'Image', '$q','$timeout', function ($scope, Image, $q, $timeout) {
+    $scope.start = 0;
+    $scope.moreDataCanBeLoaded = true;
+    $scope.images = [];
+    $scope.isNotLoaded = true;
 
     $scope.loadMore = function() {
       //if($scope.moreDataCanBeLoaded) {
@@ -46,9 +82,17 @@ angular.module('app.controllers', [])
     };
 
     $scope.$on('$stateChangeSuccess', function() {
+      $scope.isNotLoaded = false;
       $scope.loadMore();
     });
-    //$scope.loadMore();
+
+    //如果没有加载数据，20ms后自动加载
+    $timeout( function() {
+      if($scope.isNotLoaded) {
+        $scope.$emit( "$stateChangeSuccess" );
+      }
+    },20);
+
 
     $scope.share = function(url) {
       //alert(url);
@@ -60,14 +104,14 @@ angular.module('app.controllers', [])
         "description" : "测试的描述",
         "site" : "Ks3",
         "siteUrl" : "http://ks3.ksyun.com",
-        "type" : $sharesdk.ContentType.Image
+        "type" : $sharesdk.ContentType.Auto
       };
 
       $sharesdk.showShareMenu(null, params, 100, 100, function (res) {
         console.log(JSON.stringify(res));
       });
+    };
 
-    }
   }])
 
   .controller('loginCtrl', ['$rootScope', '$scope', '$state', function ($rootScope, $scope, $state) {
@@ -75,7 +119,7 @@ angular.module('app.controllers', [])
       alert("state = " + response.state + "\n user = " + JSON.stringify(response.data));
       if (response.state == $sharesdk.ResponseState.Success) {
         sessionStorage.setItem('user', JSON.stringify(response.data));
-        $state.go("tabsController.page4");
+        $state.go("tabsController.page4",{},{reload: true});
       } else if (response.state == $sharesdk.ResponseState.Cancel) {
         alert('取消登录');
       } else if (response.state == $sharesdk.ResponseState.Fail) {
@@ -107,7 +151,7 @@ angular.module('app.controllers', [])
       cordova.exec(function (data) {
         alert(JSON.stringify(data));
         sessionStorage.setItem('user', JSON.stringify(data));
-        $state.go("tabsController.page4");
+        $state.go("tabsController.page4",{},{reload: true});
 
       }, function (err) {
         alert('您尚未登录，请使用社交账号登录');
