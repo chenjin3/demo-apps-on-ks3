@@ -68,8 +68,8 @@ var ks3app = angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'a
 
       //微信
       var weixinConf = {};
-      weixinConf["app_id"] = "wx4868b35061f87885"; //"wx0f1257757a5fce80";
-      weixinConf["app_secret"] = "64020361b8ec4c99936c0e3999a9f249"; //"425aa8f9dc020fd5047c50508d85507e";
+      weixinConf["app_id"] = "wx0f1257757a5fce80";
+      weixinConf["app_secret"] = "425aa8f9dc020fd5047c50508d85507e";
       platformConfig[window.$sharesdk.PlatformID.WechatPlatform] = weixinConf;
 
       //QQ

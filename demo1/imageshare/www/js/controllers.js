@@ -55,12 +55,12 @@ angular.module('app.controllers', [])
       var params = {
         "text" : "",
         "imageUrl" : url,
-        "title" : "分享标题",
-        "titleUrl" : "http://www.mob.com",
+        "title" : "图片分享",
+        "titleUrl" : url,
         "description" : "测试的描述",
-        "site" : "ShareSDK",
+        "site" : "Ks3",
         "siteUrl" : "http://ks3.ksyun.com",
-        "type" : $sharesdk.ContentType.Auto
+        "type" : $sharesdk.ContentType.Image
       };
 
       $sharesdk.showShareMenu(null, params, 100, 100, function (res) {

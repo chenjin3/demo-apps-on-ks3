@@ -45,7 +45,7 @@ Web端直传可以节省流量，但应用服务器无法知道用户上传的�
 本示例的前端采用流行的H5移动框架[Ionic](https://github.com/driftyco/ionic), 该框架允许基于开放的web技术构建跨平台的混合应用。Ionic框架是基于[Angular](https://github.com/angular/angular.js)和[Cordova](https://cordova.apache.org/)构建的，适合快速开发接近原生的混合应用。本教程的示例app ImageShare目前仅支持iOS系统，效果见如下app截图，您可以通过app store下载安装该app。
 
 <img src="./screenshot/login.PNG" width="200" height="355" style="margin:5px"><img src="./screenshot/links.PNG" width="200" height="355" style="margin:5px"><img src="./screenshot/inappdoc.PNG" width="200" height="355" style="margin:5px"><img src="./screenshot/auth.PNG" width="200" height="355" style="margin:5px">
-<img src="./screenshot/show.PNG" width="200" height="355" style="margin:5px"><img src="./screenshot/imagepick.PNG" width="200" height="355" style="margin:5px"><img src="./screenshot/uploading.png" width="200" height="355" style="margin:5px">
+<img src="./screenshot/show.PNG" width="200" height="355" style="margin:5px"><img src="./screenshot/share.PNG" width="200" height="355" style="margin:5px"><img src="./screenshot/imagepick.PNG" width="200" height="355" style="margin:5px"><img src="./screenshot/uploading.png" width="200" height="355" style="margin:5px">
 
 imageshare工程下的www目录中包含所有界面和逻辑的代码，plugins是应用依赖的插件，包括几个Cordova核心插件(相机，设备，文件传输，图片选择器，内嵌浏览器)和一个自定义的[ShareSDK插件](https://github.com/chenjin3/cordova-plugin-x-sharesdk)。platforms目录下所支持的平台，目前只支持iOS平台，想运行于其他平台可以通过ionic或[cordova的命令行工具](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html)自行添加其他平台（如Android，windows）。而platforms/ios/imageshare.xcodeproj 文件为xcode工程文件，可以通过xcode打开该iOS应用。
 
