@@ -49,18 +49,6 @@ angular.module('app.routes', [])
     controller: 'loginCtrl'
   })
 
-    .state('pay', {
-      url: '/pay',
-      cache: false,
-      templateUrl: 'templates/onepay.html',
-      controller: 'payCtrl'
-    })
-    .state('pay.callback', {
-      url: '/callback',
-      templateUrl: 'templates/callback.html',
-      controller: 'callbackCtrl'
-    })
-
     $urlRouterProvider.otherwise('/login');
 
 
